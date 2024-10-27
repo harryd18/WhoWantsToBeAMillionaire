@@ -8,27 +8,30 @@ package whowantstobeamillionaire;
  *
  * @author harshitdhasmana
  */
+
+
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
 public class GameUI {
-    
-    public static void displayQuestion(Questions question, int level) { 
+
+    public static void displayQuestion(Questions question, int level) {
         System.out.println("Level " + level);
-        System.out.println(question.getQuestionText());
-        
+        System.out.println(question.getQuestion()); // Correct method call
+
         Map<Character, String> sortedOptions = new TreeMap<>(question.getOptions());
-        
         sortedOptions.forEach((k, v) -> System.out.println(k + ": " + v));
     }
-    
+
     public static void displayLifelines(List<LifeLine> lifelines) {
         System.out.println("Available Lifelines:");
         for (int i = 0; i < lifelines.size(); i++) {
             System.out.println((i + 1) + ": " + lifelines.get(i).getClass().getSimpleName());
         }
-      
     }
     
-    
+    public static void displayMessage(String message) {
+        System.out.println(message); // New method to display messages
+    }
 }

@@ -8,37 +8,52 @@ package whowantstobeamillionaire;
  *
  * @author harshitdhasmana
  */
+
+import java.util.HashMap;
 import java.util.Map;
 
-public class Questions { 
-    private String questionText;
-    private Map<Character, String> options;
+public class Questions {
+    private String question;
+    private String optionA;
+    private String optionB;
+    private String optionC;
+    private String optionD;
     private char correctAnswer;
-     private String hint;
+    private int prizeAmount;
+    private String hint;
 
-    public Questions(String questionText, Map<Character, String> options, char correctAnswer, String hint) {
-        this.questionText = questionText;
-        this.options = options;
+    public Questions(String question, String optionA, String optionB, String optionC, String optionD, char correctAnswer, int prizeAmount, String hint) {
+        this.question = question;
+        this.optionA = optionA;
+        this.optionB = optionB;
+        this.optionC = optionC;
+        this.optionD = optionD;
         this.correctAnswer = correctAnswer;
+        this.prizeAmount = prizeAmount;
         this.hint = hint;
     }
 
-    public boolean isCorrect(char userAnswer) {
-        return userAnswer == correctAnswer;
-    }
-
-    public String getQuestionText() {
-        return questionText;
+    public String getQuestion() {
+        return question;
     }
 
     public Map<Character, String> getOptions() {
+        Map<Character, String> options = new HashMap<>();
+        options.put('A', optionA);
+        options.put('B', optionB);
+        options.put('C', optionC);
+        options.put('D', optionD);
         return options;
     }
-    
+
     public char getCorrectAnswer() {
         return correctAnswer;
     }
-    
+
+    public int getPrizeAmount() {
+        return prizeAmount;
+    }
+
     public String getHint() {
         return hint;
     }

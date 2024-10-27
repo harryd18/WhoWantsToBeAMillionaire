@@ -8,106 +8,42 @@ package whowantstobeamillionaire;
  *
  * @author harshitdhasmana
  */
-//public class Player {
-//    private String name;
-//    private int currentLevel;
-//    private int currentWinningAmount; 
-//
-//    public Player(String name) {
-//        this.name = name;
-//        this.currentLevel = 0;
-//        this.currentWinningAmount = 0;
-//    }
-//
-//    public void increaseLevel() {
-//        currentLevel++;
-//    }
-//
-//    public void addWinnings(int amount) {
-//        currentWinningAmount += amount;
-//    }
-//
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public int getCurrentLevel() {
-//        return currentLevel;
-//    }
-//
-//    public int getCurrentWinnings() {
-//        return currentWinningAmount;
-//    }
-//}
-//
-
-
-//public class Player {
-//    private String name;
-//    private int currentLevel;
-//    private int currentWinningAmount; 
-//
-//    public Player(String name) {
-//        this.name = name;
-//        this.currentLevel = 0;
-//        this.currentWinningAmount = 0;
-//    }
-//
-//    public void increaseLevel() {
-//        currentLevel++;
-//    }
-//
-//    public void addWinnings(int amount) {
-//        currentWinningAmount += amount;
-//    }
-//
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public int getCurrentLevel() {
-//        return currentLevel;
-//    }
-//
-//    public int getCurrentWinnings() {
-//        return currentWinningAmount;
-//    }
-//}
-
-
 
 public class Player {
     private String name;
-    private int currentLevel;
-    private int currentWinningAmount; 
+    private int currentWinnings;
+    private int level;
+    private int id; 
 
-    public Player(String name) {
+    public Player(String name, int id) {
         this.name = name;
-        this.currentLevel = 0;
-        this.currentWinningAmount = 0;
-    }
-
-    public void increaseLevel() {
-        currentLevel++;
+        this.currentWinnings = 0;
+        this.level = 1;
+        this.id = id;
     }
 
     public void addWinnings(int amount) {
-        currentWinningAmount += amount;
+        this.currentWinnings += amount;
+    }
+
+    public void increaseLevel() {
+        this.level++;
     }
 
     public String getName() {
         return name;
     }
-
-    public void setName(String name) { // New setter method
-        this.name = name;
-    }
-
-    public int getCurrentLevel() {
-        return currentLevel;
+    
+     public int getId() {  
+        return id;
     }
 
     public int getCurrentWinnings() {
-        return currentWinningAmount;
+        return currentWinnings;
+    }
+
+    public int getLevel() {
+        return level;
     }
 }
+
