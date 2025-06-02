@@ -1,16 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-//package whowantstobeamillionaire;
-
 package views;
-
-/**
- *
- * @author harshitdhasmana
- */
-
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,6 +20,7 @@ public class GameGUI extends JFrame {
         setSize(800, 600);
         setLayout(new BorderLayout());
 
+        // Top panel with question and winnings
         JPanel topPanel = new JPanel(new BorderLayout());
         questionLabel = new JLabel("Question will be displayed here", SwingConstants.CENTER);
         winningsLabel = new JLabel("Current Winnings: $0", SwingConstants.CENTER);
@@ -39,6 +28,7 @@ public class GameGUI extends JFrame {
         topPanel.add(winningsLabel, BorderLayout.SOUTH);
         add(topPanel, BorderLayout.NORTH);
 
+        // Answer buttons
         JPanel answerPanel = new JPanel(new GridLayout(2, 2, 10, 10));
         answerButtons = new JButton[4];
         for (int i = 0; i < answerButtons.length; i++) {
@@ -47,6 +37,7 @@ public class GameGUI extends JFrame {
         }
         add(answerPanel, BorderLayout.CENTER);
 
+        // Lifeline and control buttons
         JPanel bottomPanel = new JPanel(new FlowLayout());
         fiftyFiftyButton = new JButton("50/50 Lifeline");
         getHintButton = new JButton("Get Hint");
@@ -61,12 +52,21 @@ public class GameGUI extends JFrame {
         setVisible(true);
     }
 
+    // ✅ Enables all answer buttons after using 50/50 or for new question
+    public void enableAllAnswerButtons() {
+        for (JButton answerButton : answerButtons) {
+            answerButton.setEnabled(true);
+        }
+    }
+
+    // Displays the current question and its options
     public void displayQuestion(String question, Map<Character, String> options) {
         questionLabel.setText(question);
         int i = 0;
         for (Map.Entry<Character, String> entry : options.entrySet()) {
             answerButtons[i].setText(entry.getKey() + ": " + entry.getValue());
             answerButtons[i].setActionCommand(String.valueOf(entry.getKey()));
+            answerButtons[i].setEnabled(true); // also reset button state here
             i++;
         }
     }
@@ -91,8 +91,8 @@ public class GameGUI extends JFrame {
         winningsLabel.setText("Current Winnings: $" + amount);
     }
 
+    // Disables buttons not included in the 50/50 lifeline response
     public void displayFiftyFiftyOptions(Map<Character, String> remainingOptions) {
-        int i = 0;
         for (JButton answerButton : answerButtons) {
             if (remainingOptions.containsKey(answerButton.getActionCommand().charAt(0))) {
                 answerButton.setEnabled(true);
@@ -115,7 +115,3 @@ public class GameGUI extends JFrame {
         dispose();
     }
 }
-
-
-
-

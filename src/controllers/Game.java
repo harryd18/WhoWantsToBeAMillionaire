@@ -1,60 +1,44 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-//package whowantstobeamillionaire;
 package controllers;
 
-import java.util.List;
-import java.util.Map;
-import javax.swing.JOptionPane;
-import views.GameGUI;
-import whowantstobeamillionaire.Database;
-import whowantstobeamillionaire.Questions;
-
-/**
- *
- * @author harshitdhasmana
- */
-
-
-import whowantstobeamillionaire.Database;
-import whowantstobeamillionaire.Questions;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 import java.util.Map;
+
 import views.GameGUI;
-import whowantstobeamillionaire.FiftyFifty;
-import whowantstobeamillionaire.GetHint;
-import whowantstobeamillionaire.GetNewQuestion;
+import whowantstobeamillionaire.*;
 
 public class Game {
-    private Database database;
-    private List<Questions> questions;
-    private int currentQuestionIndex;
-    private int currentWinningAmount;
     private GameGUI gui;
+    private QuestionList questionList;
+    private Questions currentQuestion;
+
     private FiftyFifty fiftyFifty;
     private GetHint getHint;
     private GetNewQuestion getNewQuestion;
 
+    private PrizeAmount prizeAmount;        // 💰 Manages prize levels
+    private int currentWinningAmount;       // 💰 Tracks what player has won
+    private int questionCount;              // 🔢 How many questions answered correctly
+
     public Game(GameGUI gui) {
         this.gui = gui;
-        database = new Database();
-        database.initialize();
 
-        questions = database.fetchQuestionsFromDB();
-        currentQuestionIndex = 0;
-        currentWinningAmount = 0;
+        // Initialize lifelines and game logic
+        this.questionList = new QuestionList();
+        this.fiftyFifty = new FiftyFifty();
+        this.getHint = new GetHint();
+        this.getNewQuestion = new GetNewQuestion();
+        this.prizeAmount = new PrizeAmount();
 
-        fiftyFifty = new FiftyFifty();
-        getHint = new GetHint();
-        getNewQuestion = new GetNewQuestion();
+        // Start state
+        this.currentWinningAmount = 0;
+        this.questionCount = 1;
 
+        // Display first question
         displayQuestion();
 
+        // Listener for answer buttons
         gui.addAnswerListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -62,6 +46,7 @@ public class Game {
             }
         });
 
+        // Listener for restart button
         gui.addRestartListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -69,6 +54,7 @@ public class Game {
             }
         });
 
+        // Listener for lifelines
         gui.addLifelineListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -77,59 +63,85 @@ public class Game {
         });
     }
 
+    /**
+     * Displays a new question if available
+     */
     private void displayQuestion() {
-        if (currentQuestionIndex < questions.size()) {
-            Questions currentQuestion = questions.get(currentQuestionIndex);
+        currentQuestion = questionList.getRandomQuestion();
+
+        if (currentQuestion != null) {
+            gui.enableAllAnswerButtons(); // Make sure all buttons are re-enabled
             Map<Character, String> options = currentQuestion.getOptions();
             gui.displayQuestion(currentQuestion.getQuestion(), options);
         } else {
-            showGameOver();
+            showGameOver(); // No more questions left
         }
     }
 
+    /**
+     * Handles when a user selects an answer
+     */
     private void handleOptionSelected(String selectedOption) {
-        Questions currentQuestion = questions.get(currentQuestionIndex);
         char correctAnswer = currentQuestion.getCorrectAnswer();
 
         if (selectedOption.length() > 0 && selectedOption.charAt(0) == correctAnswer) {
-            currentWinningAmount += currentQuestion.getPrizeAmount();
+            // 🎯 Correct Answer — award prize based on how many were answered
+            currentWinningAmount = prizeAmount.getPrize(questionCount);
+            questionCount++; // increment question level
             gui.setCurrentWinnings(currentWinningAmount);
-            currentQuestionIndex++;
-            displayQuestion();
+           // Defer the call to show next question AFTER GUI update
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    displayQuestion();
+                }
+            });
         } else {
+            // ❌ Wrong answer — end game
             showGameOver();
         }
+        System.out.println("You clicked: " + selectedOption + ", Correct: " + correctAnswer);
+
     }
 
+    /**
+     * Handles lifeline use
+     */
     private void handleLifelineSelected(String selectedLifeline) {
-        Questions currentQuestion = questions.get(currentQuestionIndex);
-
         switch (selectedLifeline) {
             case "50/50 Lifeline":
                 Map<Character, String> remainingOptions = fiftyFifty.useLifeline(currentQuestion);
                 gui.displayFiftyFiftyOptions(remainingOptions);
                 break;
+
             case "Get Hint":
                 String hint = currentQuestion.getHint();
                 JOptionPane.showMessageDialog(gui, "Hint: " + hint);
                 break;
+
             case "New Question":
-                currentQuestionIndex++;
-                displayQuestion();
+                displayQuestion(); // Skip current question
                 break;
+
             default:
                 JOptionPane.showMessageDialog(gui, "Unknown lifeline selected!");
         }
     }
 
+    /**
+     * Ends the game and shows final winnings
+     */
     private void showGameOver() {
         JOptionPane.showMessageDialog(gui, "Game Over! You've won $" + currentWinningAmount);
         gui.close();
     }
 
+    /**
+     * Resets the entire game
+     */
     private void resetGame() {
         currentWinningAmount = 0;
-        currentQuestionIndex = 0;
+        questionCount = 1;
+        questionList.resetUsedQuestions();
         gui.reset();
         displayQuestion();
     }

@@ -40,6 +40,8 @@ public class PrizeAmount {
     public int getPrizeForLevel(int level) {
         return prizeMap.getOrDefault(level, 0);
     }
-    
+    public int getPrize(int questionNumber) {
+        return prizeMap.getOrDefault(questionNumber, 0);
+    }
     
 }

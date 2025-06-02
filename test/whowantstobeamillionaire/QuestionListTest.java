@@ -1,14 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
 package whowantstobeamillionaire;
 
+import java.util.HashSet;
 import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
+import java.util.Set;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -17,52 +12,54 @@ import static org.junit.Assert.*;
  * @author harshitdhasmana
  */
 public class QuestionListTest {
-    
-    public QuestionListTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
+
+    private QuestionList questionList;
+
     @Before
     public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
+        questionList = new QuestionList();
     }
 
-    /**
-     * Test of getQuestions method, of class QuestionList.
-     */
     @Test
-    public void testGetQuestions() {
-        System.out.println("getQuestions");
-        QuestionList instance = new QuestionList();
-        List<Questions> expResult = null;
-        List<Questions> result = instance.getQuestions();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testQuestionsAreLoaded() {
+        List<Questions> questions = questionList.getQuestions();
+        assertNotNull("Question list should not be null", questions);
+        assertTrue("Question list should contain questions", questions.size() >= 10);
     }
 
-    /**
-     * Test of getRandomQuestion method, of class QuestionList.
-     */
     @Test
-    public void testGetRandomQuestion() {
-        System.out.println("getRandomQuestion");
-        QuestionList instance = new QuestionList();
-        Questions expResult = null;
-        Questions result = instance.getRandomQuestion();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testNoDuplicateQuestions() {
+        Set<Questions> seen = new HashSet<>();
+        Questions q;
+        int count = 0;
+
+        while ((q = questionList.getRandomQuestion()) != null) {
+            assertFalse("Duplicate question detected!", seen.contains(q));
+            seen.add(q);
+            count++;
+        }
+
+        assertEquals("Should exhaust all unique questions", questionList.getQuestions().size(), count);
     }
-    
+
+    @Test
+    public void testGetRandomQuestionReturnsNullWhenExhausted() {
+        // Exhaust all questions
+        for (int i = 0; i < questionList.getQuestions().size(); i++) {
+            assertNotNull("Should return a question", questionList.getRandomQuestion());
+        }
+
+        // Now it should return null
+        assertNull("Should return null when all questions are used", questionList.getRandomQuestion());
+    }
+
+    @Test
+    public void testResetUsedQuestions() {
+        // Exhaust all questions
+        while (questionList.getRandomQuestion() != null);
+
+        // Reset and ensure we can get a question again
+        questionList.resetUsedQuestions();
+        assertNotNull("Should return a question after reset", questionList.getRandomQuestion());
+    }
 }

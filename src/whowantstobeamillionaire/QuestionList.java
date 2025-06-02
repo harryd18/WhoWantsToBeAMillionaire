@@ -12,16 +12,20 @@ package whowantstobeamillionaire;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 public class QuestionList {
     private List<Questions> questions; // List to hold questions
+    private Set<Integer> usedIndexes;
     private Random random; // Random instance to get random questions
 
     public QuestionList() {
         this.questions = new ArrayList<>(); // Initialize the questions list
+        this.usedIndexes = new HashSet<>();
         this.random = new Random(); // Initialize the random instance
         loadQuestions(); // Load questions into the list
     }
@@ -139,16 +143,27 @@ public class QuestionList {
         ));
     }
 
-    // Method to get a random question from the list
+    // Method to get a random, unused question from the list
     public Questions getRandomQuestion() {
-        if (questions.isEmpty()) {
-            return null; // Handle case where there are no questions
+        if (usedIndexes.size() == questions.size()) {
+            return null; // All questions have been used
         }
-        int randomIndex = random.nextInt(questions.size()); // Generate a random index
-        return questions.get(randomIndex); // Return the question at that index
+
+        int index;
+        do {
+            index = random.nextInt(questions.size());
+        } while (usedIndexes.contains(index));
+
+        usedIndexes.add(index);
+        return questions.get(index);
     }
 
-    // Method to return all questions (if needed)
+    //  reset question usage (if needed for replay)
+    public void resetUsedQuestions() {
+        usedIndexes.clear();
+    }
+
+    // Return all questions if needed
     public List<Questions> getQuestions() {
         return questions;
     }

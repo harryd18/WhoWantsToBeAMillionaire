@@ -20,7 +20,7 @@ import javax.swing.*;
 public class WhoWantsToBeAMillionaire {
     public WhoWantsToBeAMillionaire() {
         GameGUI gameGUI = new GameGUI();
-        Game game = new Game(gameGUI); // Pass the GameGUI to Game
+        Game game = new Game(gameGUI); 
     }
 
     public static void main(String[] args) {
