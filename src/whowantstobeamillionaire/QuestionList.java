@@ -198,6 +198,40 @@ public class QuestionList {
             16000,
             "It's the only even prime number."
         ));
+        
+        questions.add(new Questions(
+            "Which language is the most widely spoken in the world?",
+            "Spanish",
+            "Mandarin Chinese",
+            "English",
+            "Hindi",
+            'B',
+            32000,
+            "It has the most native speakers globally."
+        ));
+        
+        questions.add(new Questions(
+            "Which is the only planet that rotates clockwise?",
+            "Earth",
+            "Venus",
+            "Uranus",
+            "Mars",
+            'B',
+            125000,
+            "It's sometimes called Earth's twin, but it spins backward."
+        ));
+
+        
+        questions.add(new Questions(
+            "Who was the first person to walk on the moon?",
+            "Buzz Aldrin",
+            "Yuri Gagarin",
+            "Neil Armstrong",
+            "Michael Collins",
+            'C',
+            250000,
+            "He famously said: 'That's one small step for man...'"
+        ));
     }
 
     // Method to get a random, unused question from the list
