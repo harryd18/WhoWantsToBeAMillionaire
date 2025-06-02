@@ -69,14 +69,14 @@ public class Game {
     private void displayQuestion() {
         currentQuestion = questionList.getRandomQuestion();
 
-        if (currentQuestion != null) {
-            gui.enableAllAnswerButtons(); // Make sure all buttons are re-enabled
+       if (currentQuestion != null) {
+            gui.enableAllAnswerButtons();
             Map<Character, String> options = currentQuestion.getOptions();
             gui.displayQuestion(currentQuestion.getQuestion(), options);
         } else {
-            showGameOver(); // No more questions left
-        }
-    }
+            JOptionPane.showMessageDialog(gui, "🎉 Congratulations! You’ve completed the game and won $" + currentWinningAmount);
+            gui.close();
+        }}
 
     /**
      * Handles when a user selects an answer

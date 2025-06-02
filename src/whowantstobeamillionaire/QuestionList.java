@@ -141,6 +141,63 @@ public class QuestionList {
             150, 
             "This fruit is known for its creamy texture."
         ));
+        
+        questions.add(new Questions(
+            "Which ocean is the largest in the world?",
+            "Atlantic Ocean",
+            "Indian Ocean",
+            "Pacific Ocean",
+            "Arctic Ocean",
+            'C',
+            1000,
+            "It covers more than 30% of Earth's surface."
+        ));
+        
+        
+        questions.add(new Questions(
+            "Who painted the Mona Lisa?",
+            "Leonardo da Vinci",
+            "Pablo Picasso",
+            "Vincent van Gogh",
+            "Claude Monet",
+            'A',
+            2000,
+            "The artist was also an inventor and engineer."
+        ));
+      
+        questions.add(new Questions(
+            "How many continents are there on Earth?",
+            "Five",
+            "Six",
+            "Seven",
+            "Eight",
+            'C',
+            4000,
+            "Includes Asia, Africa, Europe..."
+        ));
+        
+        
+        questions.add(new Questions(
+            "What gas do plants absorb from the atmosphere?",
+            "Oxygen",
+            "Carbon Dioxide",
+            "Nitrogen",
+            "Hydrogen",
+            'B',
+            8000,
+            "It's essential for photosynthesis."
+        ));
+
+        questions.add(new Questions(
+            "What is the smallest prime number?",
+            "0",
+            "1",
+            "2",
+            "3",
+            'C',
+            16000,
+            "It's the only even prime number."
+        ));
     }
 
     // Method to get a random, unused question from the list
