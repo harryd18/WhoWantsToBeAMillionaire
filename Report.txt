@@ -1,9 +1,0 @@
-This project is a Java-based quiz game inspired by Who Wants to Be a Millionaire? It features a graphical user interface (GUI) for interactive gameplay, allowing players to answer multiple-choice questions and use lifelines like 50/50, hints, and skipping questions. The game integrates a database to store questions, tracks player winnings, and has a scoreboard for viewing scores. Players can restart the game at any point, and the system handles question progression and lifeline use dynamically, creating an engaging and responsive experience.
-
-GitHub Link :- https://github.com/harryd18/WhoWantsToBeAMillionaire.git
-
-
-Student Details -:
-
-Name - Harshit Dhasmana
-Student ID - 23221489
